@@ -1,0 +1,116 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+
+@font-face {
+    font-family: "brillian-signature";
+    src: url("../fonts/brilliance-signature.otf");
+}
+
+@font-face {
+    font-family: "cattalonia";
+    src: url("../fonts/cattalonia.otf");
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+}
+
+.modal-title {
+    font-family: "brillian-signature", cursive;
+    color: #fff;
+}
+
+.contact-name {
+    text-transform: uppercase;
+    font-family: "Montserrat", sans-serif;
+    color: #fff;
+}
+
+.contact-name a {
+    text-transform: uppercase;
+    font-family: "Montserrat", sans-serif;
+    color: #fff;
+}
+
+.section-header {
+    font-family: "brillian-signature", cursive;
+}
+
+section.hero {
+    text-transform: uppercase;
+    font-family: "Montserrat", sans-serif;
+}
+
+section.hero .wrapper {
+    padding: 250px 0px 0px 0px;
+}
+
+section.hero p.opening {
+    font-size: 1em;
+}
+
+section.hero .wedding-couple {
+    text-transform: none;
+}
+
+section.hero .wedding-couple p {
+    font-size: 6.5em;
+    line-height: 0.8em;
+    font-family: "brillian-signature", cursive;
+}
+
+section.hero .wedding-couple p.with {
+    font-family: "brillian-signature", cursive;
+    font-size: 80px;
+    line-height: 1em;
+    margin-bottom: 3rem;
+    animation: beat 0.5s infinite alternate;
+}
+
+section.hero p.date,
+section.hero p.location,
+section.hero p.address {
+    font-size: 1em;
+}
+
+section.hero p.date span {
+    padding-left: 4px;
+}
+
+section.hero p.location {
+    font-size: 1em;
+}
+
+.firman-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.firman {
+    font-family: "Montserrat", sans-serif;
+    font-style: italic;
+}
+
+.firman-ayat {
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+}
+
+.doa {
+    font-family: "Montserrat", sans-serif;
+}
+
+@media screen and (max-width: 460px) {
+    section.hero .wrapper {
+        padding: 200px 0px 0px 0px;
+    }
+
+    section.hero .wedding-couple p {
+        font-size: 4.5em;
+    }
+
+    section.hero .wedding-couple p.with {
+        font-size: 3.5em;
+    }
+}
