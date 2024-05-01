@@ -12,6 +12,16 @@
     src: url("../fonts/cattalonia.otf");
 }
 
+@font-face {
+    font-family: "Madina";
+    src: url("../fonts/Madina.ttf");
+}
+
+@font-face {
+    font-family: "munday";
+    src: url("../fonts/munday.ttf");
+}
+
 body {
     font-family: "Montserrat", sans-serif;
 }
