@@ -27,11 +27,19 @@ Route::get('form/create', [HomeController::class, 'create'])
 Route::post('form/store', [HomeController::class, 'store'])
     ->name('form.store');
 
-Route::get('{card:name}', [HomeController::class, 'card'])
-    ->name('card.index');
+Route::group(['prefix' => '{card:name}'], function () {
+    Route::get('', [HomeController::class, 'card'])
+        ->name('card.index');
 
-Route::post('{card:name}/doa', [HomeController::class, 'doa'])
-    ->name('card.doa');
+    Route::post('doa', [HomeController::class, 'doa'])
+        ->name('card.doa');
 
-Route::post('{card:name}/make-a-wish', [HomeController::class, 'wish'])
-    ->name('card.make-a-wish');
+    Route::post('make-a-wish', [HomeController::class, 'wish'])
+        ->name('card.make-a-wish');
+
+    Route::post('rsvp', [HomeController::class, 'rsvpStore'])
+        ->name('card.rsvp.store');
+
+    Route::get('rsvp/export', [HomeController::class, 'rsvpExport'])
+        ->name('card.rsvp.export');
+});

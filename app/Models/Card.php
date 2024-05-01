@@ -17,7 +17,8 @@ class Card extends BaseModel
     protected $with = [
         'doa',
         'contacts',
-        'info'
+        'info',
+        'itineraries'
     ];
 
     protected $appends = [
@@ -56,8 +57,12 @@ class Card extends BaseModel
         return $this->belongsTo(Bismillah::class);
     }
 
+    public function itineraries() {
+        return $this->hasMany(Itinerary::class);
+    }
+
     public function getCardNameAttribute(){
-        if ($this->type == 'index') {
+        if ($this->type == 'index' || $this->type == 'full') {
             $names = explode('-x-', $this->name);
             return ucfirst($names[0]) . " & " . ucfirst($names[1]);
         }
@@ -70,21 +75,21 @@ class Card extends BaseModel
     }
 
     public function getBrideNameAttribute(){
-        if($this->type == 'index') {
+        if($this->type == 'index' || $this->type == 'full') {
             $names = explode('-x-', $this->name);
             return $names[0];
         }
     }
 
     public function getPartnerNameAttribute(){
-        if ($this->type == 'index') {
+        if ($this->type == 'index' || $this->type == 'full') {
             $names = explode('-x-', $this->name);
             return $names[1];
         }
     }
 
     public function getGoogleCalendarAttribute(){
-        if ($this->type == 'index') {
+        if ($this->type == 'index' || $this->type == 'full') {
             $name = $this->card_name . ' wedding day!';
 
             $from_date= Carbon::parse($this->info->wedding_at)->format('d M Y');
@@ -105,7 +110,7 @@ class Card extends BaseModel
             for ($i = 0; $i < count($arg_list); $i++) {
                 $current = $arg_list[$i];
                 if(is_int($current)) {
-                    $t = Carbon::createFromTimestamp($current)->toDateTimeString(); 
+                    $t = Carbon::createFromTimestamp($current)->toDateTimeString();
                     $current = Carbon::parse($t)->format('Ymd\THis');
                     unset($t);
                 }

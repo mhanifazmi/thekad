@@ -18,6 +18,7 @@
     <link rel="stylesheet" media="all" href="{{ asset('css/animate.css') }}?t={{ microtime() }}" />
     <link rel="stylesheet" media="all" href="{{ asset('css/simply-countdown.css') }}?t={{ microtime() }}" />
     <link rel="stylesheet" media="all" href="{{ asset('css/calendar.css') }}?t={{ microtime() }}" />
+    <link rel="stylesheet" media="all" href="{{ asset('css/timeline.css') }}?t={{ microtime() }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
@@ -50,6 +51,7 @@
         }
 
         @media screen and (max-width: 600px) {
+
             .groom,
             .with,
             .bride {
@@ -71,12 +73,10 @@
                     {!! $card->walimatul->svg !!}
                 </div>
                 <div class="wedding-couple" style="color: {{ $card->main_color }};">
-                    <p style="text-transform: capitalize;"
-                        class="groom title-font-family">{{ $card->bride_name }}
+                    <p style="text-transform: capitalize;" class="groom title-font-family">{{ $card->bride_name }}
                     </p>
                     <p class="with title-font-family">&amp;</p>
-                    <p style="text-transform: capitalize;"
-                        class="bride title-font-family">{{ $card->partner_name }}
+                    <p style="text-transform: capitalize;" class="bride title-font-family">{{ $card->partner_name }}
                     </p>
                 </div>
                 <div style="margin-top: 100px">
@@ -139,6 +139,35 @@
                         Surah Adz-Dzariyaat 51; Ayat 49
                     </p>
                 </div>
+            </div>
+        </section>
+        <section class="itinerary-book">
+            <div class="wrapper" style="width: 100%; margin-bottom: 10px ">
+                <h2 class="section-header">Itinerary</h2>
+                <div class="timeline scrollbar"
+                    style="background:linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url({{ asset('images/themes/' . $card->background . '/small-section.png') }}); background-repeat: no-repeat; background-position: center; background-size: 100% 100%; height: 400px;">
+                    <div class="force-overflow"></div>
+                    <ul>
+                        @foreach ($card->itineraries as $itinerary)
+                            <li>
+                                <span>{{ $itinerary->time }}</span>
+                                <div class="content">
+                                    <p>{{ $itinerary->title }}</p>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section class="rsvp"
+            style="background-image: url(' {{ asset('images/themes/' . $card->background . '/small-section.png') }}'); background-repeat: no-repeat; background-position: center; background-size: 100% 100%; height: 400px;">
+            <div class="wrapper">
+                <div class="rsvp-text">
+                    We kindly request the honor of your presence at our wedding. Please RSVP by 30 June 2024 to help us
+                    plan our special day accordingly.
+                </div>
+                <a href="#" class="wish-button" data-toggle="modal" data-target="#rsvp-modal">RSVP</a>
             </div>
         </section>
         <section class="guest-book">
@@ -217,6 +246,69 @@
         </div>
     </div>
 
+    <div class="modal fade " id="rsvp-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close close-modal" data-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body mb-5">
+                    <form class="rsvp-form" method="POST" action="{{ route('card.rsvp.store', $card) }}">
+                        @csrf
+                        <h4 class="mb-4">Kindly respond your RSVP below</h4>
+                        <div class="btn-group d-flex" role="group" aria-label="Basic example">
+                            <input value="1" type="radio" class="btn-check rsvp-yes" name="options"
+                                id="yes" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="yes">YES</label>
+
+                            <input value="0" type="radio" class="btn-check rsvp-no" name="options"
+                                id="no" autocomplete="off">
+                            <label class="btn btn-outline-danger" for="no">NO</label>
+                        </div>
+                        <hr>
+                        <div class="pax-container">
+                            <div class="rsvp-box">
+                                <div class="alert alert-info" role="alert">
+                                    Total Pax = <span class="total-pax fw-bold">1</span>
+                                </div>
+                                <div class="rsvp-pax">
+                                    <div class="pax-group mb-2">
+                                        <div class="input-group ">
+                                            <span class="input-group-text">Name<span
+                                                    class="text-danger">*</span></span>
+                                            <input required name="name[]" type="text" class="form-control"
+                                                placeholder="Name">
+                                            <button style="width: 50px" class="btn btn-primary pax-add"
+                                                type="button">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="rsvp-box pax-contact mb-2">
+                                <div class="alert alert-warning" role="alert">
+                                    Completing the following field is optional, yet it would greatly assist us in our
+                                    management efforts.
+                                </div>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text">Email</span>
+                                    <input name="email" type="text" class="form-control" placeholder="Email">
+                                </div>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text">Contact</span>
+                                    <input name="contact" type="text" class="form-control" placeholder="Contact">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Submit RSVP</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal" id="music-modal">
         <div class="modal-sandbox"></div>
         <div class="modal-box">
@@ -242,8 +334,11 @@
         <div class="modal-box">
             <div class="modal-body">
                 <h1 class="modal-title" style="color: #fff">Peta</h1>
-                <div id="map"></div>
-                <button onclick="myNavFunc()" target="_blank" class="glass-button direction-button">Open in Google
+                <div id="map">
+
+                </div>
+                <button onclick="myNavFunc()" target="_blank" class="glass-button direction-button">Open in
+                    Google
                     Map</button>
 
                 <a href="{{ $card->info->venue_url_waze }}" target="_blank"
@@ -282,6 +377,12 @@
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
+    </script>
     <script>
         $(document).ready(function() {
             $('.slick-track').slick({
@@ -294,57 +395,58 @@
         });
     </script>
     <script>
-        simplyCountdown('.simply-countdown', {
-            year: {{ $card->info->wedding_at->format('Y') }},
-            month: {{ $card->info->wedding_at->format('m') }},
-            day: {{ $card->info->wedding_at->format('d') }},
-            hours: {{ $card->info->hours_minutes['hours'] }},
-            minutes: {{ $card->info->hours_minutes['minutes'] }},
-        });
-
-        $(".hand-gesture").hover(function() {
-            $('.gesture-bw').addClass('d-none')
-            $('.gesture-colored').removeClass('d-none')
-        }, function() {
-            $('.gesture-bw').removeClass('d-none')
-            $('.gesture-colored').addClass('d-none')
-        });
-
-        $(".hand-gesture").on('click', function($e) {
-            $e.preventDefault();
-            $.ajax({
-                method: "post",
-                url: "{{ route('card.doa', $card) }}",
-                dataType: "json",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                },
-                success: function(data) {
-                    $('.hand-gesture').off('hover click');
-                    $('.count').html(data.count)
-                    $('.gesture-bw').addClass('d-none')
-                    $('.gesture-colored').removeClass('d-none')
-                    $(".hand-gesture").css({
-                        'cursor': 'context-menu'
-                    });
-                }
+        $(document).ready(function() {
+            simplyCountdown('.simply-countdown', {
+                year: {{ $card->info->wedding_at->format('Y') }},
+                month: {{ $card->info->wedding_at->format('m') }},
+                day: {{ $card->info->wedding_at->format('d') }},
+                hours: {{ $card->info->hours_minutes['hours'] }},
+                minutes: {{ $card->info->hours_minutes['minutes'] }},
             });
-        });
 
-        $(".modal-trigger").click(function(e) {
-            e.preventDefault();
-            dataModal = $(this).attr("data-modal");
-            $("#" + dataModal).css({
-                "display": "block"
+            $(".hand-gesture").hover(function() {
+                $('.gesture-bw').addClass('d-none')
+                $('.gesture-colored').removeClass('d-none')
+            }, function() {
+                $('.gesture-bw').removeClass('d-none')
+                $('.gesture-colored').addClass('d-none')
             });
-            // $("body").css({"overflow-y": "hidden"}); //Prevent double scrollbar.
-        });
 
-        $(".close-modal, .modal-sandbox").click(function() {
-            $(".modal").css({
-                "display": "none"
+            $(".hand-gesture").on('click', function($e) {
+                $e.preventDefault();
+                $.ajax({
+                    method: "post",
+                    url: "{{ route('card.doa', $card) }}",
+                    dataType: "json",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        $('.hand-gesture').off('hover click');
+                        $('.count').html(data.count)
+                        $('.gesture-bw').addClass('d-none')
+                        $('.gesture-colored').removeClass('d-none')
+                        $(".hand-gesture").css({
+                            'cursor': 'context-menu'
+                        });
+                    }
+                });
             });
-            // $("body").css({"overflow-y": "auto"}); //Prevent double scrollbar.
+
+            $(".modal-trigger").click(function(e) {
+                e.preventDefault();
+                dataModal = $(this).attr("data-modal");
+                $("#" + dataModal).css({
+                    "display": "block"
+                });
+            });
+
+            $(".close-modal, .modal-sandbox").click(function() {
+                $(".modal").css({
+                    "display": "none"
+                });
+                // $("body").css({"overflow-y": "auto"}); //Prevent double scrollbar.
+            });
         });
     </script>
     <script type="text/javascript">
@@ -375,7 +477,6 @@
     </script>
     <script>
         function myNavFunc() {
-            // If it's an iPhone..
             if ((navigator.platform.indexOf("iPhone") != -1) ||
                 (navigator.platform.indexOf("iPod") != -1) ||
                 (navigator.platform.indexOf("iPad") != -1))
@@ -432,6 +533,27 @@
                 }
             }
         });
+    </script>
+    <script>
+        $(".pax-add").click(function() {
+            $('.rsvp-pax').append(
+                '<div class="pax-group mb-2"><div class="input-group"><span class="input-group-text">Name</span><input name="name[]" type="text" class="form-control" placeholder="Name"><button style="width: 50px" class="btn btn-danger pax-minus" type="button">-</button></div></div>'
+            )
+        })
+
+        $(document).on('click', ".pax-minus", function() {
+            $(this).closest('.pax-group').remove()
+        })
+
+        $(document).on('click', ".pax-minus, .pax-add, .rsvp-yes", function() {
+            $('.pax-container').show()
+            $('.total-pax').text($('.pax-group').length)
+        })
+
+        $(document).on('click', ".rsvp-no", function() {
+            $('.total-pax').text(0)
+            $('.pax-container').hide()
+        })
     </script>
 </body>
 

@@ -7,9 +7,12 @@ use App\Models\CardContact;
 use App\Models\CardInformation;
 use App\Models\Doa;
 use App\Models\GuessBook;
+use App\Models\Rsvp;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ExportRsvp;
 
 class HomeController extends Controller
 {
@@ -91,5 +94,69 @@ class HomeController extends Controller
         }
 
         return redirect()->route('card.index', $card->name);
+    }
+
+    public function rsvpStore(Card $card, Request $request)
+    {
+        $names = $request->name;
+        $email = $request->email;
+        $contact = $request->contact;
+        $parent_id = null;
+
+        foreach ($names as $key => $name) {
+            if (is_null($parent_id)) {
+                $rsvp = new Rsvp();
+                $rsvp->parent_id = null;
+                $rsvp->name = $name;
+                $rsvp->email = $email;
+                $rsvp->contact = $contact;
+                $rsvp->card_id = $card->id;
+                $rsvp->save();
+                $parent_id = $rsvp->id;
+            } else {
+                if ($name == '') {
+                    $name = $names[0];
+                }
+                $rsvp = new Rsvp();
+                $rsvp->parent_id = $parent_id;
+                $rsvp->name = $name;
+                $rsvp->email = $email;
+                $rsvp->contact = $contact;
+                $rsvp->card_id = $card->id;
+                $rsvp->save();
+            }
+        }
+
+        return redirect()->route('card.index', $card->name);
+    }
+
+    public function rsvpExport(Card $card)
+    {
+        $rsvps = Rsvp::with('family')
+            ->where('card_id', $card->id)
+            ->whereNull('parent_id')
+            ->get();
+        $array = [];
+
+        foreach ($rsvps as $key => $rsvp) {
+            $array[] = [
+                'number' => $key + 1,
+                'name' => $rsvp->name,
+                'email' => $rsvp->email,
+                'contact' => $rsvp->contact,
+            ];
+
+            foreach ($rsvp->family as $family) {
+                $array[] = [
+                    'number' => $key + 1,
+                    'name' => $family->name,
+                    'email' => $family->email,
+                    'contact' => $family->contact,
+                ];
+            }
+        }
+
+
+        return Excel::download(new ExportRsvp($array), 'rsvp.xlsx');
     }
 }
