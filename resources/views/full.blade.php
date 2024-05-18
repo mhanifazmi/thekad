@@ -170,7 +170,7 @@
             style="background-image: url(' {{ asset('images/themes/' . $card->background . '/small-section.png') }}'); background-repeat: no-repeat; background-position: center; background-size: 100% 100%; height: 400px;">
             <div class="wrapper">
                 <div class="rsvp-text">
-                    We kindly request the honor of your presence at our wedding. Please RSVP by 30 June 2024 to help us
+                    We kindly request the honor of your presence at our wedding. Please RSVP by 30 August 2024 to help us
                     plan our special day accordingly.
                 </div>
                 <a href="#" class="wish-button" data-toggle="modal" data-target="#rsvp-modal">RSVP</a>
