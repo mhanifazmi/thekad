@@ -124,7 +124,7 @@
                 </div>
                 <div class="wedding-event-info">
                     <p class="info-heading">Tempat</p>
-                    <p>{{ $card->info->venue }}
+                    <p>{!! $card->info->venue !!}
                     </p>
                 </div>
             </div>
