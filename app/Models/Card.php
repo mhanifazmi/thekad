@@ -18,7 +18,8 @@ class Card extends BaseModel
         'doa',
         'contacts',
         'info',
-        'itineraries'
+        'itineraries',
+        'guest_images'
     ];
 
     protected $appends = [
@@ -43,6 +44,10 @@ class Card extends BaseModel
 
     public function card_customs() {
         return $this->hasMany(CardCustom::class);
+    }
+
+    public function guest_images() {
+        return $this->hasMany(GuestImage::class);
     }
 
     public function info() {

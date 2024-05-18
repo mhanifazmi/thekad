@@ -22,6 +22,11 @@
     src: url("../fonts/munday.ttf");
 }
 
+@font-face {
+    font-family: "great-vibes";
+    src: url("../fonts/great-vibes.ttf");
+}
+
 body {
     font-family: "Montserrat", sans-serif;
 }

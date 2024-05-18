@@ -18,6 +18,7 @@
     <link rel="stylesheet" media="all" href="{{ asset('css/animate.css') }}?t={{ microtime() }}" />
     <link rel="stylesheet" media="all" href="{{ asset('css/simply-countdown.css') }}?t={{ microtime() }}" />
     <link rel="stylesheet" media="all" href="{{ asset('css/calendar.css') }}?t={{ microtime() }}" />
+    <link rel="stylesheet" media="all" href="{{ asset('css/owl.carousel.css') }}?t={{ microtime() }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
@@ -50,6 +51,7 @@
         }
 
         @media screen and (max-width: 600px) {
+
             .groom,
             .with,
             .bride {
@@ -63,6 +65,11 @@
 
 <body class="application designs preview" style="color: {{ $card->main_color }}">
     <div class="wedding-card">
+        <div class="envelop-card">
+            <div class="envelop-content">
+                @include('envelope')
+            </div>
+        </div>
         <section class="hero"
             style="background-image: url('{{ asset('images/themes/' . $card->background . '/bg.png') }}'); background-repeat: no-repeat; background-position: center top; background-size: 100% auto;">
             <div class="wrapper" style="padding-top: 180px">
@@ -71,12 +78,10 @@
                     {!! $card->walimatul->svg !!}
                 </div>
                 <div class="wedding-couple" style="color: {{ $card->main_color }};">
-                    <p style="text-transform: capitalize;"
-                        class="groom title-font-family">{{ $card->bride_name }}
+                    <p style="text-transform: capitalize;" class="groom title-font-family">{{ $card->bride_name }}
                     </p>
                     <p class="with title-font-family">&amp;</p>
-                    <p style="text-transform: capitalize;"
-                        class="bride title-font-family">{{ $card->partner_name }}
+                    <p style="text-transform: capitalize;" class="bride title-font-family">{{ $card->partner_name }}
                     </p>
                 </div>
                 <div style="margin-top: 100px">
@@ -170,6 +175,15 @@
                             src="{{ asset('images/doa-gesture-colored.svg') }}" />
                         <span class="count">{{ $card->doa ? $card->doa->count : 0 }}</span>
                     </p>
+                </div>
+            </div>
+        </section>
+        <section class="guest-images">
+            <div class="wrapper">
+                <div class="owl-carousel">
+                    @foreach ($card->guest_images as $guest_image)
+                        <img class="guest-image-img item" src="{{ asset($guest_image->path) }}">
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -282,6 +296,7 @@
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
+    <script type="text/javascript" src="{{ asset('js/owl.carousel.js') }}?t={{ microtime() }}"></script>
     <script>
         $(document).ready(function() {
             $('.slick-track').slick({
@@ -397,23 +412,16 @@
                 player = new YT.Player('player', {
                     height: '360',
                     width: '640',
-                    videoId: 'uVtshtkIzgM',
+                    videoId: 'PEM0Vs8jf1w',
                     playerVars: {
                         autoplay: 1, // Autoplay is enabled
                     },
-                    events: {
-                        'onReady': onPlayerReady
-                    }
                 });
             } catch (error) {
                 console.error('YouTube API loading error:', error);
                 onYouTubeIframeAPIReady();
                 console.log(1)
             }
-        }
-
-        function onPlayerReady(event) {
-            player.playVideo();
         }
 
         $(".play-button").click(function(e) {
@@ -432,6 +440,44 @@
                 }
             }
         });
+
+        $('.welcome-button').click(function(event) {
+            $('.envelop-card').hide();
+            player.playVideo();
+            isPlaying = true;
+            $(".play").addClass("d-none");
+            $(".pause").removeClass("d-none");
+            $("html, body").animate({
+                scrollTop: 0
+            }, "fast");
+            owl.trigger('play.owl.autoplay')
+            return false;
+        })
+
+        var owl = $('.owl-carousel');
+        owl.owlCarousel({
+            loop: true,
+            margin: 5,
+            nav: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 1
+                },
+                1000: {
+                    items: 1
+                }
+            },
+            margin: 5,
+            autoplayTimeout: 3000,
+            autoplayHoverPause: true
+        });
+
+        $('.welcome-button').click(function(event) {
+            owl.trigger('play.owl.autoplay')
+        })
     </script>
 </body>
 

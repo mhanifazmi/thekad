@@ -19,6 +19,7 @@
     <link rel="stylesheet" media="all" href="{{ asset('css/simply-countdown.css') }}?t={{ microtime() }}" />
     <link rel="stylesheet" media="all" href="{{ asset('css/calendar.css') }}?t={{ microtime() }}" />
     <link rel="stylesheet" media="all" href="{{ asset('css/timeline.css') }}?t={{ microtime() }}" />
+    <link rel="stylesheet" media="all" href="{{ asset('css/owl.carousel.css') }}?t={{ microtime() }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
@@ -64,6 +65,11 @@
 </head>
 
 <body class="application designs preview" style="color: {{ $card->main_color }}">
+    <div class="envelop-card">
+        <div class="envelop-content">
+            @include('envelope')
+        </div>
+    </div>
     <div class="wedding-card">
         <section class="hero"
             style="background-image: url('{{ asset('images/themes/' . $card->background . '/bg.png') }}'); background-repeat: no-repeat; background-position: center top; background-size: 100% auto;">
@@ -199,6 +205,15 @@
                             src="{{ asset('images/doa-gesture-colored.svg') }}" />
                         <span class="count">{{ $card->doa ? $card->doa->count : 0 }}</span>
                     </p>
+                </div>
+            </div>
+        </section>
+        <section class="guest-images">
+            <div class="wrapper">
+                <div class="owl-carousel">
+                    @foreach ($card->guest_images as $guest_image)
+                        <img class="guest-image-img item" src="{{ asset($guest_image->path) }}">
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -383,6 +398,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js"
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
     </script>
+    <script type="text/javascript" src="{{ asset('js/owl.carousel.js') }}?t={{ microtime() }}"></script>
+
     <script>
         $(document).ready(function() {
             $('.slick-track').slick({
@@ -498,7 +515,7 @@
                 player = new YT.Player('player', {
                     height: '360',
                     width: '640',
-                    videoId: 'uVtshtkIzgM',
+                    videoId: 'PEM0Vs8jf1w',
                     playerVars: {
                         autoplay: 1, // Autoplay is enabled
                     },
@@ -553,6 +570,44 @@
         $(document).on('click', ".rsvp-no", function() {
             $('.total-pax').text(0)
             $('.pax-container').hide()
+        })
+
+        $('.welcome-button').click(function(event) {
+            $('.envelop-card').hide();
+            player.playVideo();
+            isPlaying = true;
+            $(".play").addClass("d-none");
+            $(".pause").removeClass("d-none");
+            $("html, body").animate({
+                scrollTop: 0
+            }, "fast");
+            owl.trigger('play.owl.autoplay')
+            return false;
+        })
+
+        var owl = $('.owl-carousel');
+        owl.owlCarousel({
+            loop: true,
+            margin: 5,
+            nav: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 1
+                },
+                1000: {
+                    items: 1
+                }
+            },
+            margin: 5,
+            autoplayTimeout: 3000,
+            autoplayHoverPause: true
+        });
+
+        $('.welcome-button').click(function(event) {
+            owl.trigger('play.owl.autoplay')
         })
     </script>
 </body>
