@@ -107,7 +107,7 @@
                     <p>&</p>
                     <p>{!! $card->info->mother_name !!}</p>
                 </div>
-                <p class="greeting">Dengan segala hormatnya mempersilakan tuan/puan ke majlis perkahwinan puteri kami
+                <p class="greeting">Dengan segala hormatnya mempersilakan tuan/puan ke majlis perkahwinan putera kami
                 </p>
                 <div class="wedding-people">
                     <p>{{ $card->info->bride }}</p>

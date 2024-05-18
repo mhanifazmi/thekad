@@ -109,9 +109,9 @@
                 <p class="greeting">Dengan segala hormatnya mempersilakan tuan/puan ke majlis perkahwinan puteri kami
                 </p>
                 <div class="wedding-people">
-                    <p>{{ $card->info->bride }}</p>
+                    <p>{!! $card->info->bride !!}</p>
                     <p>&</p>
-                    <p>{{ $card->info->bride_partner }}</p>
+                    <p>{!! $card->info->bride_partner !!}</p>
                 </div>
                 <div class="wedding-event-info">
                     <p class="info-heading">Tarikh</p>
