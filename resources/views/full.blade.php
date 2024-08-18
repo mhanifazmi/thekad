@@ -170,7 +170,8 @@
             style="background-image: url(' {{ asset('images/themes/' . $card->background . '/small-section.png') }}'); background-repeat: no-repeat; background-position: center; background-size: 100% 100%; height: 400px;">
             <div class="wrapper">
                 <div class="rsvp-text">
-                    We kindly request the honor of your presence at our wedding. Please RSVP by 30 August 2024 to help us
+                    We kindly request the honor of your presence at our wedding. Please RSVP by 30 August 2024 to help
+                    us
                     plan our special day accordingly.
                 </div>
                 <a href="#" class="wish-button" data-toggle="modal" data-target="#rsvp-modal">RSVP</a>
@@ -284,7 +285,7 @@
                         </div>
                         <hr>
                         <div class="pax-container">
-                            <div class="rsvp-box">
+                            {{-- <div class="rsvp-box">
                                 <div class="alert alert-info" role="alert">
                                     Total Pax = <span class="total-pax fw-bold">1</span>
                                 </div>
@@ -297,6 +298,28 @@
                                                 placeholder="Name">
                                             <button style="width: 50px" class="btn btn-primary pax-add"
                                                 type="button">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> --}}
+                            <div class="rsvp-box">
+                                <div class="rsvp-pax">
+                                    <div class="pax-group mb-2">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Name</label>
+                                            <input required name="name" type="text" class="form-control text-center"
+                                                placeholder="Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Pax number</label>
+                                            <div class="input-group">
+                                                <button style="width: 50px" class="btn btn-danger pax-minus"
+                                                    type="button">-</button>
+                                                <input min="0" value="0" readonly required name="pax" type="number" class="form-control text-center pax-number"
+                                                    placeholder="Pax">
+                                                <button style="width: 50px" class="btn btn-primary pax-add"
+                                                    type="button">+</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -552,19 +575,32 @@
         });
     </script>
     <script>
-        $(".pax-add").click(function() {
-            $('.rsvp-pax').append(
-                '<div class="pax-group mb-2"><div class="input-group"><span class="input-group-text">Name</span><input name="name[]" type="text" class="form-control" placeholder="Name"><button style="width: 50px" class="btn btn-danger pax-minus" type="button">-</button></div></div>'
-            )
+        // $(".pax-add").click(function() {
+        //     $('.rsvp-pax').append(
+        //         '<div class="pax-group mb-2"><div class="input-group"><span class="input-group-text">Name</span><input name="name[]" type="text" class="form-control" placeholder="Name"><button style="width: 50px" class="btn btn-danger pax-minus" type="button">-</button></div></div>'
+        //     )
+        // })
+
+        // $(document).on('click', ".pax-minus", function() {
+        //     $(this).closest('.pax-group').remove()
+        // })
+
+        // $(document).on('click', ".pax-minus, .pax-add, .rsvp-yes", function() {
+        //     $('.pax-container').show()
+        //     $('.total-pax').text($('.pax-group').length)
+        // })
+
+        $(document).on('click', ".pax-add", function() {
+            let pax = parseInt($('.pax-number').val());
+            $('.pax-number').val(pax + 1)
         })
 
         $(document).on('click', ".pax-minus", function() {
-            $(this).closest('.pax-group').remove()
-        })
-
-        $(document).on('click', ".pax-minus, .pax-add, .rsvp-yes", function() {
-            $('.pax-container').show()
-            $('.total-pax').text($('.pax-group').length)
+            let pax = $('.pax-number').val();
+            if(pax == 0){
+                return;
+            }
+            $('.pax-number').val(pax - 1)
         })
 
         $(document).on('click', ".rsvp-no", function() {

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ExportRsvp;
+use App\Exports\ExportRsvp2;
 
 class HomeController extends Controller
 {
@@ -98,12 +99,12 @@ class HomeController extends Controller
 
     public function rsvpStore(Card $card, Request $request)
     {
-        $names = $request->name;
+        $name = $request->name;
         $email = $request->email;
         $contact = $request->contact;
         $parent_id = null;
 
-        foreach ($names as $key => $name) {
+        for ($i = 0; $i < $request->pax; $i++) {
             if (is_null($parent_id)) {
                 $rsvp = new Rsvp();
                 $rsvp->parent_id = null;
@@ -114,9 +115,6 @@ class HomeController extends Controller
                 $rsvp->save();
                 $parent_id = $rsvp->id;
             } else {
-                if ($name == '') {
-                    $name = $names[0];
-                }
                 $rsvp = new Rsvp();
                 $rsvp->parent_id = $parent_id;
                 $rsvp->name = $name;
@@ -158,5 +156,26 @@ class HomeController extends Controller
 
 
         return Excel::download(new ExportRsvp($array), 'rsvp.xlsx');
+    }
+
+    public function rsvpExport2(Card $card)
+    {
+        $rsvps = Rsvp::with('family')
+            ->where('card_id', $card->id)
+            ->whereNull('parent_id')
+            ->get();
+        $array = [];
+
+        foreach ($rsvps as $key => $rsvp) {
+            $array[] = [
+                'number' => $key + 1,
+                'name' => $rsvp->name,
+                'pax' => $rsvp->family->count(),
+                'email' => $rsvp->email,
+                'contact' => $rsvp->contact,
+            ];
+        }
+
+        return Excel::download(new ExportRsvp2($array), 'rsvp.xlsx');
     }
 }

@@ -40,6 +40,6 @@ Route::group(['prefix' => '{card:name}'], function () {
     Route::post('rsvp', [HomeController::class, 'rsvpStore'])
         ->name('card.rsvp.store');
 
-    Route::get('rsvp/export', [HomeController::class, 'rsvpExport'])
+    Route::get('rsvp/export', [HomeController::class, 'rsvpExport2'])
         ->name('card.rsvp.export');
 });
